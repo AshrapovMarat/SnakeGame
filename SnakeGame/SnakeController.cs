@@ -37,17 +37,6 @@ namespace SnakeGame
     /// <param name="food">Объект еды.</param>
     public void StepUp(string[,] field, ref Food food)
     {
-      //(Coordinate firstCoordinateSnake, Coordinate secondCoordinateSnake) = snake.GetDrivingDirection();
-      //if (firstCoordinateSnake.Y - 1 != secondCoordinateSnake.Y)
-      //{
-      //  snakeNextStep = new Coordinate(firstCoordinateSnake.X, firstCoordinateSnake.Y - 1);
-      //  snakeNextStep = HandleObstacleCollision(field, snakeNextStep, ref food);
-      //  snake.MoveOneStep(snakeNextStep, food);
-      //}
-      //else
-      //{
-      //  RepeatPreviousMovement(field, ref food);
-      //}
       MoveSnake(Direction.Up, field, ref food);
     }
 
@@ -58,17 +47,6 @@ namespace SnakeGame
     /// <param name="food">Объект еды.</param>
     public void StepDown(string[,] field, ref Food food)
     {
-      //(Coordinate firstCoordinateSnake, Coordinate secondCoordinateSnake) = snake.GetDrivingDirection();
-      //if (firstCoordinateSnake.Y + 1 != secondCoordinateSnake.Y)
-      //{
-      //  snakeNextStep = new Coordinate(firstCoordinateSnake.X, firstCoordinateSnake.Y + 1);
-      //  snakeNextStep = HandleObstacleCollision(field, snakeNextStep, ref food);
-      //  snake.MoveOneStep(snakeNextStep, food);
-      //}
-      //else
-      //{
-      //  RepeatPreviousMovement(field, ref food);
-      //}
       MoveSnake(Direction.Down, field, ref food);
     }
 
@@ -79,17 +57,6 @@ namespace SnakeGame
     /// <param name="food">Объект еды.</param>
     public void StepRigth(string[,] field, ref Food food)
     {
-      //(Coordinate firstCoordinateSnake, Coordinate secondCoordinateSnake) = snake.GetDrivingDirection();
-      //if (firstCoordinateSnake.X + 1 != secondCoordinateSnake.X)
-      //{
-      //  snakeNextStep = new Coordinate(firstCoordinateSnake.X + 1, firstCoordinateSnake.Y);
-      //  snakeNextStep = HandleObstacleCollision(field, snakeNextStep, ref food);
-      //  snake.MoveOneStep(snakeNextStep, food);
-      //}
-      //else
-      //{
-      //  RepeatPreviousMovement(field, ref food);
-      //}
       MoveSnake(Direction.Right, field, ref food);
     }
 
@@ -100,17 +67,6 @@ namespace SnakeGame
     /// <param name="food">Объект еды.</param>
     public void StepLeft(string[,] field, ref Food food)
     {
-      //(Coordinate firstCoordinateSnake, Coordinate secondCoordinateSnake) = snake.GetDrivingDirection();
-      //if (firstCoordinateSnake.X - 1 != secondCoordinateSnake.X)
-      //{
-      //  snakeNextStep = new Coordinate(firstCoordinateSnake.X - 1, firstCoordinateSnake.Y);
-      //  snakeNextStep = HandleObstacleCollision(field, snakeNextStep, ref food);
-      //  snake.MoveOneStep(snakeNextStep, food);
-      //}
-      //else
-      //{
-      //  RepeatPreviousMovement(field, ref food);
-      //}
       MoveSnake(Direction.Left, field, ref food);
     }
 
@@ -122,8 +78,8 @@ namespace SnakeGame
     public void RepeatPreviousMovement(string[,] field, ref Food food)
     {
       (Coordinate firstCoordinateSnake, Coordinate secondCoordinateSnake) = snake.GetDrivingDirection();
-      int newXCoordinate = (firstCoordinateSnake.X - secondCoordinateSnake.X);
-      int newYCoordinate = (firstCoordinateSnake.Y - secondCoordinateSnake.Y);
+      int newXCoordinate = firstCoordinateSnake.X - secondCoordinateSnake.X;
+      int newYCoordinate = firstCoordinateSnake.Y - secondCoordinateSnake.Y;
       newXCoordinate = AdjustingCoordinateValue(newXCoordinate);
       newYCoordinate = AdjustingCoordinateValue(newYCoordinate);
       snakeNextStep = new Coordinate(newXCoordinate + firstCoordinateSnake.X, newYCoordinate + firstCoordinateSnake.Y);
@@ -146,44 +102,24 @@ namespace SnakeGame
         if (snakeCoordinate.Y == 0)
         {
           var nextStep = new Coordinate(snakeCoordinate.X, field.GetLength(0) - 2);
-          //if (field[nextStep.Y, nextStep.X] == "@")
-          //{
-          //  food = food.DeleteFood();
-          //}
-
           nextStep = CheckForFood(nextStep, field, ref food);
           return nextStep;
         }
         else if (snakeCoordinate.Y == field.GetLength(0) - 1)
         {
           var nextStep = new Coordinate(snakeCoordinate.X, 1);
-          //if (field[nextStep.Y, nextStep.X] == "@")
-          //{
-          //  food = food.DeleteFood();
-          //}
-
           nextStep = CheckForFood(nextStep, field, ref food);
           return nextStep;
         }
         else if (snakeCoordinate.X == 0)
         {
           var nextStep = new Coordinate(field.GetLength(1) - 2, snakeCoordinate.Y);
-          //if (field[nextStep.Y, nextStep.X] == "@")
-          //{
-          //  food = food.DeleteFood();
-          //}
-
           nextStep = CheckForFood(nextStep, field, ref food);
           return nextStep;
         }
         else if (snakeCoordinate.X == field.GetLength(1) - 1)
         {
           var nextStep = new Coordinate(1, snakeCoordinate.Y);
-          //if (field[nextStep.Y, nextStep.X] == "@")
-          //{
-          //  food = food.DeleteFood();
-          //}
-
           nextStep = CheckForFood(nextStep, field, ref food);
           return nextStep;
         }
@@ -292,9 +228,15 @@ namespace SnakeGame
       }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="nextStep">Координаты следующего шага змеи.</param>
+    /// <param name="field">Игровое поле.</param>
+    /// <param name="food">Объект еды.</param>
+    /// <returns>Координаты следующего шага.</returns>
     private Coordinate CheckForFood(Coordinate nextStep, string[,] field, ref Food food)
     {
-      //var nextStep = new Coordinate(1, snakeCoordinate.Y);
       if (field[nextStep.Y, nextStep.X] == "@")
       {
         food = food.DeleteFood();

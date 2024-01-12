@@ -29,7 +29,7 @@ namespace SnakeGame
     private ScoreCounter scoreCounter;
 
     /// <summary>
-    /// Флаг, указывающий была ли съедена еда.
+    /// Фла, указывающий была ли съедена еда.
     /// </summary>
     public bool isFoodEaten { get; private set; } = false;
 
